@@ -206,7 +206,7 @@
     }
     va_end( args );
     
-    CombinableSpec *combinableSpec = [[CombinableSpec alloc] init];
+    CombinableSpec *combinableSpec = [[self alloc] init];
     combinableSpec.specs = [mArray copy];
     
     return combinableSpec;
