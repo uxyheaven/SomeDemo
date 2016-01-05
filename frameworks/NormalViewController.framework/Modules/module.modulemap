@@ -1,0 +1,6 @@
+framework module NormalViewController {
+  umbrella header "NormalViewController.h"
+
+  export *
+  module * { export * }
+}
