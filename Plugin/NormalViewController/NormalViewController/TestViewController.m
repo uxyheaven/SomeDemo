@@ -7,6 +7,7 @@
 //
 
 #import "TestViewController.h"
+#import <LibA.h>
 
 @interface TestViewController ()
 
@@ -18,7 +19,8 @@
 {
     self = [super init];
     if (self) {
-        NSString *ver = @"0.0.4";
+        NSString *ver = @"0.0.9";
+        self.title = ver;
         NSLog(@"%s, %@", __FUNCTION__, ver);
     }
     return self;
@@ -30,12 +32,21 @@
     NSLog(@"%s", __FUNCTION__);
     
     self.view.backgroundColor = [UIColor whiteColor];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 100, 30)];
+    title.tintColor = [UIColor redColor];
+    title.text = self.title;
+    [self.view addSubview:title];
     
-    
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 100, 100, 50)];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 100, 100, 30)];
     [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [btn setTitle:@"back" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+    btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 150, 100, 30)];
+    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitle:@"LibA" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(onLibA) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
     NSString *bundlefile = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/NormalViewController.framework"];
@@ -89,4 +100,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)onLibA
+{
+    [LibA show];
+}
 @end

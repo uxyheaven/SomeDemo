@@ -7,6 +7,8 @@
 //
 
 #import "FirstViewController.h"
+#import "SSZipArchive.h"
+#import "AFNetworking.h"
 
 @interface FirstViewController ()
 
@@ -21,6 +23,12 @@
     [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [btn setTitle:@"download" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(onDownload) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+    btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 30)];
+    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitle:@"unzip" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(onZip) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
     btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 150, 100, 30)];
@@ -39,6 +47,7 @@
 #pragma mark - event
 - (void)onDownload
 {
+    /*
     BOOL a = [self downloadLuaFileWithUrl:@"https://raw.githubusercontent.com/uxyheaven/SomeDemo/master/luaScripts/init.lua" path:@"init.lua"];
     BOOL b = [self downloadLuaFileWithUrl:@"https://raw.githubusercontent.com/uxyheaven/SomeDemo/master/luaScripts/SecondViewController.lua" path:@"SecondViewController.lua"];
     
@@ -53,28 +62,87 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"下载失败" message:nil delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
         [alert show];
     }
+     */
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    NSURL *URL = [NSURL URLWithString:@"https://raw.githubusercontent.com/uxyheaven/SomeDemo/master/framework/NormalViewController.framework.zip"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        NSURL *URL = [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        return URL;
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        NSLog(@"File downloaded to: %@", filePath);
+        if (error)
+        {
+            NSString *str = [NSString stringWithFormat:@"%@", error];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"下载失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"下载成功" message:nil delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+            [alert show];
+        }
+
+    }];
+    [downloadTask resume];
 }
+
+- (void)onZip
+{
+    NSString *atPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/NormalViewController.framework.zip"];
+    NSString *toPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSError *err = nil;
+    [SSZipArchive unzipFileAtPath:atPath toDestination:toPath overwrite:YES password:nil error:&err];
+    if (err)
+    {
+        NSString *str = [NSString stringWithFormat:@"%@", err];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压成功" message:nil delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 
 - (void)onLoad
 {
     NSString *bundlefile = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/NormalViewController.framework"];
     NSBundle *frameworkBundle = [NSBundle bundleWithPath:bundlefile];
     
-    if (frameworkBundle && [frameworkBundle load])
+    NSError *err;
+    
+    [frameworkBundle loadAndReturnError:&err];
+    
+    if (err)
     {
-        NSLog(@"bundle load framework success.");
+        NSLog(@"%s, %@", __func__, err);
+        NSString *str = [NSString stringWithFormat:@"%@", err];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
+        
+        return;
     }
     else
     {
-        NSLog(@"bundle load framework err");
-        
-        return;
+        NSString *str = @"bundle load framework success.";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压成功" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
     }
     
     Class pacteraClass = NSClassFromString(@"TestViewController");
     if (!pacteraClass)
     {
-        NSLog(@"Unable to get TestDylib class");
+        NSString *str = @"bundle load framework success.";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"加载失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
         return;
     }
     

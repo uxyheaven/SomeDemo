@@ -11,6 +11,8 @@
 		570077771C34D24D00C3025D /* TestViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 570077751C34D24D00C3025D /* TestViewController.h */; };
 		570077781C34D24D00C3025D /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 570077761C34D24D00C3025D /* TestViewController.m */; };
 		5734452D1C352B970066EC4D /* pic.png in Resources */ = {isa = PBXBuildFile; fileRef = 5734452C1C352B970066EC4D /* pic.png */; };
+		57FBFB6E1C619EA600CBA209 /* LibA.h in Headers */ = {isa = PBXBuildFile; fileRef = 57FBFB6C1C619EA600CBA209 /* LibA.h */; };
+		57FBFB6F1C619EA600CBA209 /* libStaticTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FBFB6D1C619EA600CBA209 /* libStaticTest.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		570077751C34D24D00C3025D /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		570077761C34D24D00C3025D /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		5734452C1C352B970066EC4D /* pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic.png; sourceTree = "<group>"; };
+		57FBFB6C1C619EA600CBA209 /* LibA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibA.h; sourceTree = "<group>"; };
+		57FBFB6D1C619EA600CBA209 /* libStaticTest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libStaticTest.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57FBFB6F1C619EA600CBA209 /* libStaticTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +57,7 @@
 		5700776A1C34D1EC00C3025D /* NormalViewController */ = {
 			isa = PBXGroup;
 			children = (
+				57FBFB6B1C619EA600CBA209 /* LibA */,
 				5700776B1C34D1EC00C3025D /* NormalViewController.h */,
 				570077751C34D24D00C3025D /* TestViewController.h */,
 				570077761C34D24D00C3025D /* TestViewController.m */,
@@ -61,6 +67,15 @@
 			path = NormalViewController;
 			sourceTree = "<group>";
 		};
+		57FBFB6B1C619EA600CBA209 /* LibA */ = {
+			isa = PBXGroup;
+			children = (
+				57FBFB6C1C619EA600CBA209 /* LibA.h */,
+				57FBFB6D1C619EA600CBA209 /* libStaticTest.a */,
+			);
+			path = LibA;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -68,6 +83,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57FBFB6E1C619EA600CBA209 /* LibA.h in Headers */,
 				5700776C1C34D1EC00C3025D /* NormalViewController.h in Headers */,
 				570077771C34D24D00C3025D /* TestViewController.h in Headers */,
 			);
@@ -239,6 +255,7 @@
 		570077711C34D1EC00C3025D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xing Yao (NL8V94E3JM)";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -246,8 +263,13 @@
 				INFOPLIST_FILE = NormalViewController/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NormalViewController/LibA",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.uxy.NormalViewController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c624c15a-a97a-4c62-9400-565b874c2a18";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -255,6 +277,7 @@
 		570077721C34D1EC00C3025D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xing Yao (NL8V94E3JM)";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -262,8 +285,13 @@
 				INFOPLIST_FILE = NormalViewController/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NormalViewController/LibA",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.uxy.NormalViewController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c624c15a-a97a-4c62-9400-565b874c2a18";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

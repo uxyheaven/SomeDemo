@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:MainBody/MainBody.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:NormalViewController/NormalViewController.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MainBody/MainBody.xcodeproj">
+      location = "group:StaticTest/StaticTest.xcodeproj">
    </FileRef>
 </Workspace>
