@@ -7,6 +7,7 @@
 //
 
 #import "TestViewController.h"
+#import "NormalViewController.h"
 #import <LibA.h>
 
 @interface TestViewController ()
@@ -19,7 +20,7 @@
 {
     self = [super init];
     if (self) {
-        NSString *ver = @"0.0.9";
+        NSString *ver = FrameworkVer;
         self.title = ver;
         NSLog(@"%s, %@", __FUNCTION__, ver);
     }

@@ -9,8 +9,11 @@
 #import "FirstViewController.h"
 #import "SSZipArchive.h"
 #import "AFNetworking.h"
+#import <objc/runtime.h>
 
 @interface FirstViewController ()
+
+@property (nonatomic, strong) NSBundle *bundle;
 
 @end
 
@@ -31,10 +34,22 @@
     [btn addTarget:self action:@selector(onZip) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
+    btn = [[UIButton alloc] initWithFrame:CGRectMake(200, 100, 100, 30)];
+    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitle:@"unzip2" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(onZip2) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
     btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 150, 100, 30)];
     [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [btn setTitle:@"load" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(onLoad) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+    btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 150, 100, 30)];
+    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitle:@"unload" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(onUnload) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
 }
 
@@ -111,21 +126,46 @@
     }
 }
 
+- (void)onZip2
+{
+    NSString *atPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/NormalViewController.framework 2.zip"];
+    NSString *toPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSError *err = nil;
+    [SSZipArchive unzipFileAtPath:atPath toDestination:toPath overwrite:YES password:nil error:&err];
+    if (err)
+    {
+        NSString *str = [NSString stringWithFormat:@"%@", err];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压成功" message:nil delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 
 - (void)onLoad
 {
+    Class pacteraClass = NSClassFromString(@"TestViewController");
+    if (pacteraClass)
+    {
+        objc_disposeClassPair(pacteraClass);
+    }
+    
     NSString *bundlefile = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/NormalViewController.framework"];
-    NSBundle *frameworkBundle = [NSBundle bundleWithPath:bundlefile];
+    self.bundle = [NSBundle bundleWithPath:bundlefile];
     
     NSError *err;
     
-    [frameworkBundle loadAndReturnError:&err];
+    [self.bundle loadAndReturnError:&err];
     
     if (err)
     {
         NSLog(@"%s, %@", __func__, err);
         NSString *str = [NSString stringWithFormat:@"%@", err];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"加载失败" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
         [alert show];
         
         return;
@@ -133,11 +173,12 @@
     else
     {
         NSString *str = @"bundle load framework success.";
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"解压成功" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"加载成功" message:str delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
         [alert show];
     }
     
-    Class pacteraClass = NSClassFromString(@"TestViewController");
+//    pacteraClass = NSClassFromString(@"TestViewController");
+    pacteraClass = [self.bundle classNamed:@"TestViewController"];
     if (!pacteraClass)
     {
         NSString *str = @"bundle load framework success.";
@@ -151,11 +192,24 @@
     [vc performSelector:@selector(log) withObject:nil];
     
     [self presentViewController:vc animated:YES completion:nil];
-
-    [frameworkBundle unload];
 }
 
-#pragma mark - 
+- (void)onUnload
+{
+    BOOL b =  [self.bundle unload];
+    
+    if (!b)
+    {
+        NSLog(@"%s 失败", __func__);
+    }
+    
+    Class pacteraClass = NSClassFromString(@"TestViewController");
+    if (pacteraClass)
+    {
+        NSLog(@"%s", __func__);
+    }
+}
+#pragma mark -
 #pragma mark-
 - (BOOL)downloadLuaFileWithUrl:(NSString *)urlPath path:(NSString *)path
 {

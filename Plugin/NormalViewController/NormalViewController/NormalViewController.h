@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define FrameworkVer @"0.1.0"
+
 //! Project version number for NormalViewController.
 FOUNDATION_EXPORT double NormalViewControllerVersionNumber;
 

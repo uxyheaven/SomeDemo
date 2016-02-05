@@ -267,9 +267,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/NormalViewController/LibA",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.uxy.NormalViewController;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uxy.mainbodydev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c624c15a-a97a-4c62-9400-565b874c2a18";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -289,9 +289,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/NormalViewController/LibA",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.uxy.NormalViewController;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uxy.mainbodydev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c624c15a-a97a-4c62-9400-565b874c2a18";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
