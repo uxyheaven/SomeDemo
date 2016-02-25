@@ -1,5 +1,7 @@
 {
 	"url1": "https://raw.githubusercontent.com/uxyheaven/SomeDemo/master/framework/NormalViewController.framework.zip",
+	"clazz1":"TestViewController",
 	"url2": "https://raw.githubusercontent.com/uxyheaven/SomeDemo/master/framework/NormalViewController.framework.zip",
+	"clazz2":"TestViewController",
 	"msg": "aaa"
 }
