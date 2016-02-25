@@ -12,7 +12,8 @@
 
 
 
-@interface ViewController()
+@interface ViewController()<NSTableViewDelegate, NSTableViewDataSource>
+@property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSTextField *filePathTextField;//显示选择的文件路径
 @property (weak) IBOutlet NSProgressIndicator *indicator;//指示器
 
@@ -35,6 +36,8 @@
     
     // Do any additional setup after loading the view.
     self.indicator.hidden = YES;
+   // self.tableView.delegate = self;
+    self.tableView.dataSource = self;
 }
 
 - (void)setRepresentedObject:(id)representedObject {
@@ -134,4 +137,21 @@
     }];
 }
 
+#pragma mark - NSTableViewDataSource
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    return 10;
+}
+
+- (nullable id)tableView:(NSTableView *)tableView objectValueForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    return [NSString stringWithFormat:@"%@_%@", tableColumn.identifier, @(row)];
+}
+
+#pragma mark - NSTableViewDelegate
+//- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
+//{
+//    NSView *view = [[NSView alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
+//    return view;
+//}
 @end
