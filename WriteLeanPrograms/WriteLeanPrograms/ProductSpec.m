@@ -14,11 +14,12 @@
 {
     return YES;
 }
+
 @end
 
 #pragma mark -
 
-@interface ColorSpec()
+@interface ColorSpec ()
 @property (nonatomic, assign) ProductColor color;
 @end
 @implementation ColorSpec
@@ -37,7 +38,7 @@
 
 @end
 
-@interface BelowWeightSpec()
+@interface BelowWeightSpec ()
 @property (nonatomic, assign) float limit;
 @end
 
@@ -54,11 +55,12 @@
 {
     return (product.weight < _limit);
 }
+
 @end
 
 
 #pragma mark -
-@interface ColorAndBelowWeigthSpec()
+@interface ColorAndBelowWeigthSpec ()
 @property (nonatomic, assign) ProductColor color;
 @property (nonatomic, assign) float limit;
 @end
@@ -76,46 +78,52 @@
 {
     return product.color == _color || (product.weight < _limit);
 }
+
 @end
 
 #pragma mark -
 #if (Abstracting_AndOrSpec == 0)
-@interface AndSpec()
+@interface AndSpec ()
 @property (nonatomic, strong) NSArray *specs;
 @end
 
 @implementation AndSpec
-+ (instancetype)spec:(ProductSpec *)spec, ... NS_REQUIRES_NIL_TERMINATION
++ (instancetype)spec:(ProductSpec *)spec, ...NS_REQUIRES_NIL_TERMINATION
 {
     va_list args;
-    va_start( args, spec );
+    va_start(args, spec);
     NSMutableArray *mArray = [@[spec] mutableCopy];
-    
-    for ( ;; )
+
+    for (;; )
     {
-        id tempSpec = va_arg( args, id );
+        id tempSpec = va_arg(args, id);
         if (tempSpec == nil)
+        {
             break;
-        
+        }
+
         [mArray addObject:tempSpec];
     }
-    va_end( args );
-    
+    va_end(args);
+
     AndSpec *andSpec = [[AndSpec alloc] init];
     andSpec.specs = [mArray copy];
-    
+
     return andSpec;
 }
 
 - (BOOL)satisfy:(Product *)product
 {
-    for (ProductSpec *spec in _specs) {
-        if (![spec satisfy:product]) {
+    for (ProductSpec *spec in _specs)
+    {
+        if (![spec satisfy:product])
+        {
             return NO;
         }
     }
     return YES;
 }
+
 @end
 
 @interface OrSpec ()
@@ -124,32 +132,36 @@
 
 @implementation OrSpec
 
-+ (instancetype)spec:(ProductSpec *)spec, ... NS_REQUIRES_NIL_TERMINATION
++ (instancetype)spec:(ProductSpec *)spec, ...NS_REQUIRES_NIL_TERMINATION
 {
     va_list args;
-    va_start( args, spec );
+    va_start(args, spec);
     NSMutableArray *mArray = [@[spec] mutableCopy];
-    
-    for ( ;; )
+
+    for (;; )
     {
-        id tempSpec = va_arg( args, id );
+        id tempSpec = va_arg(args, id);
         if (tempSpec == nil)
+        {
             break;
-        
+        }
+
         [mArray addObject:tempSpec];
     }
-    va_end( args );
-    
+    va_end(args);
+
     OrSpec *orSpec = [[OrSpec alloc] init];
     orSpec.specs = [mArray copy];
-    
+
     return orSpec;
 }
 
 - (BOOL)satisfy:(Product *)product
 {
-    for (ProductSpec *spec in _specs) {
-        if ([spec satisfy:product]) {
+    for (ProductSpec *spec in _specs)
+    {
+        if ([spec satisfy:product])
+        {
             return YES;
         }
     }
@@ -157,7 +169,6 @@
 }
 
 @end
-
 #endif
 
 @interface NotSpec ()
@@ -175,11 +186,13 @@
 
 - (BOOL)satisfy:(Product *)product
 {
-    if (![_spec satisfy:product]) {
+    if (![_spec satisfy:product])
+    {
         return YES;
     }
     return NO;
 }
+
 @end
 
 #pragma mark -
@@ -190,32 +203,36 @@
 
 @implementation CombinableSpec
 
-+ (instancetype)spec:(CombinableSpec *)spec, ... NS_REQUIRES_NIL_TERMINATION
++ (instancetype)spec:(CombinableSpec *)spec, ...NS_REQUIRES_NIL_TERMINATION
 {
     va_list args;
-    va_start( args, spec );
+    va_start(args, spec);
     NSMutableArray *mArray = [@[spec] mutableCopy];
-    
-    for ( ;; )
+
+    for (;; )
     {
-        id tempSpec = va_arg( args, id );
+        id tempSpec = va_arg(args, id);
         if (tempSpec == nil)
+        {
             break;
-        
+        }
+
         [mArray addObject:tempSpec];
     }
-    va_end( args );
-    
+    va_end(args);
+
     CombinableSpec *combinableSpec = [[self alloc] init];
     combinableSpec.specs = [mArray copy];
-    
+
     return combinableSpec;
 }
 
 - (BOOL)satisfy:(Product *)product
 {
-    for (ProductSpec *spec in _specs) {
-        if ([spec satisfy:product] == _shortcut) {
+    for (ProductSpec *spec in _specs)
+    {
+        if ([spec satisfy:product] == _shortcut)
+        {
             return _shortcut;
         }
     }
@@ -229,11 +246,13 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         self.shortcut = NO;
     }
     return self;
 }
+
 @end
 
 @implementation OrSpec
@@ -241,43 +260,40 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         self.shortcut = YES;
     }
     return self;
 }
+
 @end
 #endif
 
 
 #pragma mark -color
 
-@implementation ProductSpec(Lambda)
+@implementation ProductSpec (Lambda)
 
-+ (BOOL(^)(id p))color:(ProductColor)color
++ (BOOL (^)(id p))color:(ProductColor)color
 {
-    return ^BOOL(id p) {return [p color] == color;};
+    return ^BOOL (id p) {return [p color] == color; };
 }
-+ (BOOL(^)(id p))weightBelow:(float)limit
+
++ (BOOL (^)(id p))weightBelow:(float)limit
 {
-   return ^BOOL(id p) {return [p weight] < limit;};
+    return ^BOOL (id p) {return [p weight] < limit; };
 }
+
 @end
 
 ProductSpecBlock color(ProductColor color)
 {
-    return ^BOOL(id p) {return [p color] == color;};
+    return ^BOOL (id p) {return [p color] == color; };
 }
 
 ProductSpecBlock weightBelow(float limit)
 {
-    return ^BOOL(id p) {return [p weight] < limit;};
+    return ^BOOL (id p) {return [p weight] < limit; };
 }
-
-
-
-
-
-
-
 

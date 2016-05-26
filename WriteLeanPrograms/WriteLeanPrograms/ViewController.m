@@ -17,11 +17,12 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     Demo *demo = [[Demo alloc] init];
-    
+
     [demo test4];
     [demo test5];
     [demo test5_2];
@@ -31,7 +32,8 @@
     [demo test9];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

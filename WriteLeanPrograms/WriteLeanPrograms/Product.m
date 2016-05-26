@@ -10,8 +10,9 @@
 
 @implementation Product
 
--(NSString *)description
+- (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@, %@",@(_color), @(_weight)];
+    return [NSString stringWithFormat:@"%@, %@", @(_color), @(_weight)];
 }
+
 @end
