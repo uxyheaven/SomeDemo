@@ -22,8 +22,8 @@
 @interface ColorSpec ()
 @property (nonatomic, assign) ProductColor color;
 @end
-@implementation ColorSpec
 
+@implementation ColorSpec
 + (instancetype)specWithColor:(ProductColor)color
 {
     ColorSpec *spec = [[ColorSpec alloc] init];

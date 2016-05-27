@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum : NSUInteger {
+typedef enum : NSUInteger
+{
     RED = 1,
     GREEN,
 } ProductColor;

@@ -30,18 +30,18 @@
 
 
 #pragma mark -
-@interface ColorAndBelowWeigthSpec : NSObject 
+@interface ColorAndBelowWeigthSpec : NSObject
 + (instancetype)specWithColor:(ProductColor)color beloWeigth:(float)limit;
 @end
 
 #pragma mark -
 #if (Abstracting_AndOrSpec == 0)
 @interface AndSpec : ProductSpec
-+ (instancetype)spec:(ProductSpec *)spec, ... NS_REQUIRES_NIL_TERMINATION;
++ (instancetype)spec:(ProductSpec *)spec, ...NS_REQUIRES_NIL_TERMINATION;
 @end
 
 @interface OrSpec : ProductSpec
-+ (instancetype)spec:(ProductSpec *)spec, ... NS_REQUIRES_NIL_TERMINATION;
++ (instancetype)spec:(ProductSpec *)spec, ...NS_REQUIRES_NIL_TERMINATION;
 @end
 #endif
 
@@ -67,11 +67,11 @@
 #pragma mark -
 
 @interface ProductSpec (Lambda)
-+ (BOOL(^)(id p))color:(ProductColor)color;
-+ (BOOL(^)(id p))weightBelow:(float)limit;
++ (BOOL (^)(id p))color:(ProductColor)color;
++ (BOOL (^)(id p))weightBelow:(float)limit;
 @end
 
-typedef BOOL(^ProductSpecBlock)(id p);
+typedef BOOL (^ProductSpecBlock)(id p);
 
 extern ProductSpecBlock color(ProductColor color);
 extern ProductSpecBlock weightBelow(float limit);
