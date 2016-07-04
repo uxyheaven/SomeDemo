@@ -1,0 +1,17 @@
+{
+  "name": "xytdd",
+  "version": "1.0.0",
+  "description": "xxxxx",
+  "main": "handlebars-v4.0.5.js",
+  "dependencies": {
+    "should": "^9.0.2"
+  },
+  "devDependencies": {
+    "mocha" : "*"
+    },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

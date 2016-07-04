@@ -1,0 +1,9 @@
+body{
+	    margin: 0 auto;
+    width: 600px;
+    background-color: #3298c5;
+}
+
+div#app{
+	background-color: white;
+}
